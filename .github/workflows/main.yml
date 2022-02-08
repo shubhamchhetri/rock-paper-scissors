@@ -26,6 +26,7 @@ jobs:
       - name: Step 3 - Have GitHub Actions Build Maven Project
         run: |
           mvn -B package --file pom.xml
+          mkdir staging && cp target/*.jar staging
  
 
       - name: Step 4 -  and caching
@@ -35,10 +36,11 @@ jobs:
            key: ${{runner.os}}-m2-${{ hashfiles('**/pom.xml') }}
            restore-keys: ${{runner.os}}-m2
            
-      - name: Step 5 - what is target folder
-        run: |
-          cd target
-          ls -a 
+      - name: Step 5 - artifact file
+        uses: actions/upload-artifact@v2
+        with:
+          name: git-artifact
+          path: staging 
           
           
   build-on-windows:

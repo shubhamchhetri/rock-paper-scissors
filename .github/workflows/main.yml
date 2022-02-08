@@ -28,8 +28,12 @@ jobs:
           mvn -B package --file pom.xml
  
 
-      - name: Step 4 - list the current directroy
-        run: ls -a
+      - name: Step 4 -  and caching
+        uses: actions/cache@v2
+        with:
+           path: ~/.m2
+           key: ${{runner.os}}-m2-${{ hashfiles('**/pom.xml') }}
+           restore-keys: ${{runner.os}}-m2
            
       - name: Step 5 - what is target folder
         run: |

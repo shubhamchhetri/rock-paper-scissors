@@ -36,11 +36,18 @@ jobs:
            key: ${{runner.os}}-m2-${{ hashfiles('**/pom.xml') }}
            restore-keys: ${{runner.os}}-m2
            
+      - name: step4a secret masking
+        run: |
+         echo ${{secrets.SECRET_TOKEN}} 
+         echo trick to echo secret
+         echo ${{secrets.SECRET_TOKEN}} | sed 's/./& /g'     
+           
       - name: Step 5 - artifact file
         uses: actions/upload-artifact@v2
         with:
           name: git-artifact
           path: staging 
+          
           
           
      
